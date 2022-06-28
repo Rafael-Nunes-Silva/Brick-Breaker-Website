@@ -1,0 +1,40 @@
+body{
+    background-color: rgb(50, 50, 50);
+}
+.bricks{
+    background-color: black;
+
+    padding: 10px;
+
+    height: 500px;
+}
+.brick{
+    background-color: red;
+
+    margin: 5px;
+    padding: 32px 64px;
+
+    border-radius: 100px;
+
+    display: inline-block;
+}
+#ball{
+    background-color: white;
+
+    
+
+    position: absolute;
+
+    padding: 16px;
+
+    border-radius: 100px;
+}
+#player{
+    background-color: white;
+
+    padding: 10px 50px;
+
+    top: 700px;
+
+    position: absolute;
+}
