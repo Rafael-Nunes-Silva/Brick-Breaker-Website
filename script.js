@@ -51,7 +51,7 @@ class Brick {
     }
 
     Destroy(){
-        this.doc.parentNode.removeChild(this.doc);
+        gameDiv.doc.removeChild(this.doc);
         this.destroyed = true;
     }
 }
@@ -85,6 +85,8 @@ class Ball {
             newPos.y = gameDiv.size.y - this.size;
             ball.dir.y = U;
         }
+
+        CheckCollision();
 
         this.pos = newPos;
         this.doc.style.left = this.pos.x+"px";
@@ -139,11 +141,9 @@ function SetupGame(){
     for(let i=0, b=0; i<gameDiv.size.x/52-1; i++){
         for(let j=0; j<6; j++, b++){
             let pos = new Vector(gameDiv.borders[0].x, gameDiv.borders[0].y);
-            // pos += new Vector(pos.x+(50*i), pos.y+(30*j));
             pos.x += (52*i)+3;
             pos.y += (32*j)+3;
-            bricks[b] = new Brick(pos, new Vector(15, 25), colors[Math.floor(Math.random()*6+1)]);
-            // CreateBrick();
+            bricks[b] = new Brick(pos, new Vector(15, 25), colors[Math.floor(Math.random()*14+1)]);
         }
     }
 }
@@ -158,6 +158,14 @@ function GameLoop() {
     ball.Move(10);
 
     window.requestAnimationFrame(GameLoop);
+}
+
+function CheckCollision(){
+    for(let b=0; b<bricks.length; b++){
+        let dist = Math.sqrt(Math.pow(bricks[b].pos.x-ball.pos.x, 2) + Math.pow(bricks[b].pos.y-ball.pos.y, 2));
+        if(!bricks[b].IsDestroyed() && dist < 32)
+            bricks[b].Destroy();
+    }
 }
 
 document.addEventListener('keypress', function(event) {
