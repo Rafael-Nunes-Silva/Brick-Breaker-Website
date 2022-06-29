@@ -1,0 +1,39 @@
+body{
+    background-color: rgb(50, 50, 50);
+
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+#game{
+    background-color: black;
+
+    margin: auto;
+}
+.brick{
+    background-color: red;
+
+    margin: 0px;
+    padding: 32px 64px;
+    border: 0px;
+
+    transform: translate(-50%, -50%);
+
+    position: absolute;
+}
+#ball{
+    background-color: white;
+
+    padding: 16px;
+
+    position: absolute;
+
+    border-radius: 100px;
+}
+#player{
+    background-color: white;
+
+    padding: 10px 5%;
+
+    position: absolute;
+}
