@@ -59,7 +59,7 @@ class Ball {
     constructor(pos) {
         this.doc = document.getElementById("ball");
         this.pos = pos;
-        this.size = 32
+        this.size = 32;
         this.dir = new Vector(0, 0);
         this.doc.style.left = pos.x+"px";
         this.doc.style.top = pos.y+"px";
@@ -68,15 +68,23 @@ class Ball {
     Move(speed){
         let newPos = new Vector(this.pos.x + (this.dir.x * speed), this.pos.y + (this.dir.y * speed));
 
-        if(newPos.x <= ((window.innerWidth - gameDiv.size.x)/2))
+        if(newPos.x < (window.innerWidth - gameDiv.size.x)/2){
+            newPos.x = (window.innerWidth - gameDiv.size.x)/2;
             this.dir.x = R;
-        else if(newPos.x >= window.innerWidth - ((window.innerWidth - gameDiv.size.x)/2) - this.size)
+        }
+        else if(newPos.x > window.innerWidth - ((window.innerWidth - gameDiv.size.x)/2) - this.size){
+            window.innerWidth - ((window.innerWidth - gameDiv.size.x)/2) - this.size
             this.dir.x = L;
+        }
 
-        if(ball.pos.y <= 0)
+        if(ball.pos.y < 0){
+            newPos.y = 0;
             ball.dir.y = D;
-        else if(ball.pos.y >= gameDiv.size.y - this.size)
+        }
+        else if(ball.pos.y > gameDiv.size.y - this.size){
+            newPos.y = gameDiv.size.y - this.size;
             ball.dir.y = U;
+        }
 
         this.pos = newPos;
         this.doc.style.left = this.pos.x+"px";
@@ -99,24 +107,49 @@ class Player {
     }
 }
 
-var gameDiv = new GameDiv(new Vector(window.innerWidth*0.75, window.innerHeight*0.75));
+var gameDiv;
 
-var player = new Player(new Vector(halfScrWidth, window.innerHeight * 0.75));
-var ball = new Ball(new Vector(halfScrWidth, halfScrHeight));
-ball.dir = new Vector(R, U);
+var player;
+var ball;
 
-var bricks = [
-    new Brick(new Vector(gameDiv.borders[0].x+25, gameDiv.borders[0].y+15), new Vector(15, 25), "green"),
-    new Brick(new Vector(50, 15), new Vector(15, 25), "purple"),
-    new Brick(new Vector(25, 30), new Vector(15, 25), "blue")
-];
+var bricks = [];
 
-function StartGame(){
-    for(let i=0; i<10; i++){
-        for(let j=0; j<10; j++){
+function SetupGame(){
+    gameDiv = new GameDiv(new Vector(window.innerWidth*0.75, window.innerHeight*0.75));
+
+    player = new Player(new Vector(halfScrWidth, gameDiv.size.y));
+    ball = new Ball(new Vector(halfScrWidth, halfScrHeight));
+
+    let colors = [
+        "aqua",
+        "blue",
+        "fuchsia",
+        "green",
+        "lime",
+        "maroon",
+        "navy",
+        "olive",
+        "purple",
+        "red",
+        "silver",
+        "teal",
+        "white",
+        "yellow"
+    ]
+    for(let i=0, b=0; i<gameDiv.size.x/52-1; i++){
+        for(let j=0; j<6; j++, b++){
+            let pos = new Vector(gameDiv.borders[0].x, gameDiv.borders[0].y);
+            // pos += new Vector(pos.x+(50*i), pos.y+(30*j));
+            pos.x += (52*i)+3;
+            pos.y += (32*j)+3;
+            bricks[b] = new Brick(pos, new Vector(15, 25), colors[Math.floor(Math.random()*6+1)]);
             // CreateBrick();
         }
     }
+}
+function StartGame(){
+
+    ball.dir = new Vector(R, U);
 
     GameLoop();
 }
